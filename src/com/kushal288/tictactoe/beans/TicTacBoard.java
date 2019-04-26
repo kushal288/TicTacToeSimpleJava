@@ -1,6 +1,7 @@
 package com.kushal288.tictactoe.beans;
 
 import com.kushal288.tictactoe.enums.TicTacValue;
+import com.kushal288.tictactoe.exceptions.ValueOverridingException;
 
 import java.util.Arrays;
 
@@ -23,14 +24,14 @@ public final class TicTacBoard
 		}
 	}
 
-	public boolean insertMark(final Coordinates coordinates, final TicTacValue mark){
+	public void insertMark(final Coordinates coordinates, final TicTacValue mark) throws ValueOverridingException
+	{
 		TicTacValue prevVal = this.boardArray[coordinates.getX()][coordinates.getY()];
-		if(prevVal != null || prevVal != TicTacValue.EMPTY){
-			return false;
+		if(prevVal != null && prevVal != TicTacValue.EMPTY){
+			throw new ValueOverridingException("Value exists at: "+coordinates + ", Value: " + mark);
 		}
 
 		this.boardArray[coordinates.getX()][coordinates.getY()] = mark;
-		return true;
 	}
 
 	public TicTacValue[][] getBoardArray()
@@ -49,16 +50,21 @@ public final class TicTacBoard
 		System.out.println();
 		for (int i = 0; i < boardArray.length ; i++)
 		{
-			System.out.println("---------------");
+			if(i!=0)
+				System.out.println("------------");
 			for (int j = 0; j < boardArray[i].length; j++)
 			{
 				TicTacValue value = boardArray[i][j];
 				if(value == TicTacValue.EMPTY){
-					System.out.print("   |");
+					System.out.print("   ");
 				}else{
-					System.out.print(" " + value + " |");
+					System.out.print(" " + value + " ");
+				}
+				if(j != boardArray.length -1){
+					System.out.print("|");
 				}
 			}
+			System.out.println();
 		}
 	}
 }

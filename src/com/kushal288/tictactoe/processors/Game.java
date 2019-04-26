@@ -9,6 +9,7 @@ import com.kushal288.tictactoe.enums.GameState;
 import com.kushal288.tictactoe.enums.TicTacValue;
 import com.kushal288.tictactoe.exceptions.GameAlreadyCompletedException;
 import com.kushal288.tictactoe.exceptions.InvalidMoveException;
+import com.kushal288.tictactoe.exceptions.ValueOverridingException;
 
 public final class Game
 {
@@ -28,7 +29,8 @@ public final class Game
 		this.gameState = GameState.INPROGRESS;
 	}
 
-	public void makeMove(final Player player, final Coordinates coordinates) throws InvalidMoveException, GameAlreadyCompletedException
+	public void makeMove(final Player player, final Coordinates coordinates)
+			throws InvalidMoveException, GameAlreadyCompletedException, ValueOverridingException
 	{
 		isValidMove(player);
 		board.insertMark(coordinates, player.getTicTacValue());
