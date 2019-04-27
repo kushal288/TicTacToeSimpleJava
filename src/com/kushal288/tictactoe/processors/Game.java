@@ -23,9 +23,14 @@ public final class Game
 
 	public Game(Player player1, Player player2)
 	{
+		this(player1, player2, 3);
+	}
+
+	public Game(Player player1, Player player2, int boardOrder)
+	{
 		this.player1 = player1;
 		this.player2 = player2;
-		this.board = new TicTacBoard();
+		this.board = new TicTacBoard(boardOrder);
 		this.gameState = GameState.INPROGRESS;
 	}
 

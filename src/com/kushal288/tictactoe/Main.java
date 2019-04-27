@@ -18,7 +18,8 @@ public class Main {
             Player p1 = new Player("Kushal", TicTacValue.O);
             Player p2 = new Player("Aarti", TicTacValue.X);
 
-            Game game = new Game(p1, p2);
+            Game game = new Game(p1, p2, 10);
+
             game.move(p1, new Coordinates(0, 2));
             System.out.println(game);
             game.move(p2, new Coordinates(1, 2));

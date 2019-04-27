@@ -8,16 +8,29 @@ import java.util.Arrays;
 public final class TicTacBoard
 {
 	private final TicTacValue[][] boardArray;
+	private final int order;
+
+	private final String HORIZONTAL_SEPARATOR = "--- ";
 
 	public TicTacBoard(){
-		boardArray = new TicTacValue[3][3];
+		this(3);
+	}
+
+	public TicTacBoard(int boardOrder)
+	{
+		if (boardOrder < 3)
+		{
+			boardOrder = 3;
+		}
+		this.order = boardOrder;
+		boardArray = new TicTacValue[order][order];
 		init();
 	}
 
 	private void init(){
-		for (int i = 0; i < boardArray.length ; i++)
+		for (int i = 0; i < order; i++)
 		{
-			for (int j = 0; j < boardArray[i].length; j++)
+			for (int j = 0; j < order; j++)
 			{
 				boardArray[i][j] = TicTacValue.EMPTY;
 			}
@@ -48,11 +61,11 @@ public final class TicTacBoard
 
 	public void printBoardOnConsole(){
 		System.out.println();
-		for (int i = 0; i < boardArray.length ; i++)
+		for (int i = 0; i < order; i++)
 		{
 			if(i!=0)
-				System.out.println("------------");
-			for (int j = 0; j < boardArray[i].length; j++)
+				System.out.println(horizontalLineSeparator());
+			for (int j = 0; j < order; j++)
 			{
 				TicTacValue value = boardArray[i][j];
 				if(value == TicTacValue.EMPTY){
@@ -60,11 +73,23 @@ public final class TicTacBoard
 				}else{
 					System.out.print(" " + value + " ");
 				}
-				if(j != boardArray.length -1){
+				if (j != order - 1)
+				{
 					System.out.print("|");
 				}
 			}
 			System.out.println();
 		}
+	}
+
+	private String horizontalLineSeparator()
+	{
+
+		StringBuilder sb = new StringBuilder(order * HORIZONTAL_SEPARATOR.length());
+		for (int i = 0; i < order; i++)
+		{
+			sb.append(HORIZONTAL_SEPARATOR);
+		}
+		return sb.toString();
 	}
 }
