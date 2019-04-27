@@ -29,25 +29,27 @@ public final class Game
 		this.gameState = GameState.INPROGRESS;
 	}
 
-	public void makeMove(final Player player, final Coordinates coordinates)
+	public void move(final Player player, final Coordinates coordinates)
 			throws InvalidMoveException, GameAlreadyCompletedException, ValueOverridingException
 	{
 		isValidMove(player);
+		System.out.println("Moving for [" + player + "], coordinates = [" + coordinates + "]");
 		board.insertMark(coordinates, player.getTicTacValue());
 		prevMove = player.getTicTacValue();
 		BoardStateComputer computer = new BoardStateComputer(board);
-		if (computer.isGameCompleted())
+		TicTacValue winner = computer.getWinner();
+		if (winner == TicTacValue.EMPTY)
 		{
-			gameState = GameState.COMPLETED;
-			TicTacValue winner = computer.getWinner();
-			if (winner == TicTacValue.EMPTY)
+			if (!computer.isMovesRemaining())
 			{
+				gameState = GameState.COMPLETED;
 				result = new GameResult(GameResultStates.DRAWN, null);
 			}
-			else
-			{
-				result = new GameResult(GameResultStates.RESULT, winner == player1.getTicTacValue() ? player1 : player2);
-			}
+		}
+		else
+		{
+			gameState = GameState.COMPLETED;
+			result = new GameResult(GameResultStates.RESULT, winner == player1.getTicTacValue() ? player1 : player2);
 		}
 	}
 
@@ -90,7 +92,8 @@ public final class Game
 	@Override
 	public String toString()
 	{
-		return "Game{" + "player1=" + player1 + ", player2=" + player2 + ", board=" + board + ", prevMove=" + prevMove + ", gameState=" + gameState
+		board.printBoardOnConsole();
+		return "Game{" + "player1=" + player1 + ", player2=" + player2 + ", gameState=" + gameState
 				+ ", result=" + result + '}';
 	}
 }

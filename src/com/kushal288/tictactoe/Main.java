@@ -19,10 +19,20 @@ public class Main {
             Player p2 = new Player("Aarti", TicTacValue.X);
 
             Game game = new Game(p1, p2);
-            game.makeMove(p1, new Coordinates(0, 2));
-            game.getBoard().printBoardOnConsole();
-            game.makeMove(p2, new Coordinates(1, 2));
-            game.getBoard().printBoardOnConsole();
+            game.move(p1, new Coordinates(0, 2));
+            System.out.println(game);
+            game.move(p2, new Coordinates(1, 2));
+            System.out.println(game);
+
+            game.move(p1, new Coordinates(1, 1));
+            System.out.println(game);
+            game.move(p2, new Coordinates(2, 2));
+            System.out.println(game);
+
+            game.move(p1, new Coordinates(2, 0));
+            System.out.println(game);
+            game.move(p2, new Coordinates(1, 0));
+            System.out.println(game);
         }
         catch (InvalidMoveException e)
         {

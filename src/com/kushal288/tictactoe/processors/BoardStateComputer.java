@@ -13,18 +13,18 @@ public final class BoardStateComputer
 		this.board = board;
 	}
 
-	public boolean isGameCompleted(){
+	public boolean isMovesRemaining(){
 		TicTacValue[][] boardArray = board.getBoardArray();
 		for (int i = 0; i < boardArray.length ; i++)
 		{
 			for (int j = 0; j < boardArray[i].length; j++)
 			{
 				if(boardArray[i][j] == TicTacValue.EMPTY)
-					return false;
+					return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	public  TicTacValue getWinner(){
@@ -40,7 +40,7 @@ public final class BoardStateComputer
 				res = boardArray[i][j] == value && res;
 				value = boardArray[i][j];
 			}
-			if(res){
+			if(res && value != TicTacValue.EMPTY){
 				return value;
 			}
 		}
@@ -55,16 +55,16 @@ public final class BoardStateComputer
 				res = boardArray[j][i] == value && res;
 				value = boardArray[j][i];
 			}
-			if(res){
+			if(res && value != TicTacValue.EMPTY){
 				return value;
 			}
 		}
 
 		// forward cross run
+		TicTacValue value = boardArray[0][0];
+		boolean res = true;
 		for (int i = 0; i < boardArray.length ; i++)
 		{
-			TicTacValue value = boardArray[0][0];
-			boolean res = true;
 			for (int j = 0; j < boardArray[i].length; j++)
 			{
 				if(j==i){
@@ -72,16 +72,17 @@ public final class BoardStateComputer
 					value = boardArray[i][j];
 				}
 			}
-			if(res){
-				return value;
-			}
+		}
+
+		if(res && value != TicTacValue.EMPTY){
+			return value;
 		}
 
 		// backward cross run
+		value = boardArray[0][boardArray.length - 1];
+		res = true;
 		for (int i = 0; i < boardArray.length ; i++)
 		{
-			TicTacValue value = boardArray[0][0];
-			boolean res = true;
 			for (int j = boardArray[i].length - 1; j > -1; j--)
 			{
 				if(j + i + 1 == boardArray.length){
@@ -89,9 +90,11 @@ public final class BoardStateComputer
 					value = boardArray[i][j];
 				}
 			}
-			if(res){
-				return value;
-			}
+		}
+
+
+		if(res && value != TicTacValue.EMPTY){
+			return value;
 		}
 
 		return TicTacValue.EMPTY;
